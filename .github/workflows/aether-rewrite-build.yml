@@ -1,0 +1,29 @@
+name: Aether Island Windows build
+
+on:
+  push:
+    branches: [aether-rewrite]
+    paths: ["AetherIsland/**", ".github/workflows/aether-rewrite-build.yml"]
+  pull_request:
+    paths: ["AetherIsland/**", ".github/workflows/aether-rewrite-build.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - run: dotnet restore AetherIsland/AetherIsland.sln
+      - run: dotnet build AetherIsland/AetherIsland.sln --configuration Release --no-restore
+      - run: dotnet publish AetherIsland/src/AetherIsland.App/AetherIsland.App.csproj --configuration Release --runtime win-x64 --self-contained true --output AetherIsland/artifacts/ci/win-x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aether-island-win-x64
+          path: AetherIsland/artifacts/ci/win-x64/
+          if-no-files-found: error

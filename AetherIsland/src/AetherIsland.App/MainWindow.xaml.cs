@@ -86,7 +86,7 @@ public partial class MainWindow : Window
         try
         {
             Directory.CreateDirectory(path);
-            Process.Start(new ProcessStartInfo("explorer.exe", $"\\"{path}\\"") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo("explorer.exe", $"\"{path}\"") { UseShellExecute = true });
             StatusText.Text = "DOWNLOADS OPENED";
         }
         catch (Exception ex) { ShowError("Could not open Downloads.", ex); }
@@ -104,7 +104,7 @@ public partial class MainWindow : Window
 
     private void Settings_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show($"Settings file location:\\n{_settings.FilePath}\\n\\nA full settings window is planned next.",
+        MessageBox.Show($"Settings file location:\n{_settings.FilePath}\n\nA full settings window is planned next.",
             "Aether Island", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
@@ -128,7 +128,7 @@ public partial class MainWindow : Window
     private void ShowError(string message, Exception ex)
     {
         StatusText.Text = "ACTION FAILED";
-        MessageBox.Show($"{message}\\n{ex.Message}", "Aether Island",
+        MessageBox.Show($"{message}\n{ex.Message}", "Aether Island",
             MessageBoxButton.OK, MessageBoxImage.Warning);
     }
 }
